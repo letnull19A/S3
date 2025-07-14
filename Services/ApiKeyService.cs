@@ -1,23 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using W2B.S3.Contexts;
 using W2B.S3.Models;
-using W2B.S3.Exceptions;
 
 namespace W2B.S3.Services;
 
 public class ApiKeyService(S3DbContext db, ILogger<ApiKeyService> logger) : IApiKeyService
 {
-    private readonly S3DbContext _db = db;
-    private readonly ILogger<ApiKeyService> _logger = logger;
     private readonly object _lock = new();
 
-    public Task<ApiKey> CreateKeyAsync(string owner, string permissions, DateTime? expiresAt = null)
+    public Task<ApiKeyModel> CreateKeyAsync(string owner, string permissions, DateTime? expiresAt = null)
     {
         if (string.IsNullOrWhiteSpace(owner))
             throw new ArgumentException("Owner cannot be empty", nameof(owner));
 
-        var key = new ApiKey
+        var key = new ApiKeyModel
         {
-            Key = GenerateSecureKey(),
             Owner = owner.Trim(),
             Permissions = NormalizePermissions(permissions),
             CreatedAt = DateTime.UtcNow,
@@ -27,13 +24,13 @@ public class ApiKeyService(S3DbContext db, ILogger<ApiKeyService> logger) : IApi
 
         lock (_lock)
         {
-            _db.ApiKeys.Add(key);
-            _db.SaveChanges();
+            db.ApiKeys.Add(key);
+            db.SaveChanges();
         }
 
-        _logger.LogInformation("Created new API key for {Owner} (Key: {KeyLast4})", 
-            owner, key.Key[^4..]);
-        
+        logger.LogInformation("Created new API key for {Owner} (Key: {KeyLast4})",
+            owner, key.Id.ToString()[^4..]);
+
         return Task.FromResult(key);
     }
 
@@ -42,21 +39,21 @@ public class ApiKeyService(S3DbContext db, ILogger<ApiKeyService> logger) : IApi
         if (string.IsNullOrWhiteSpace(apiKey))
             return false;
 
-        return await _db.ApiKeys
-            .AnyAsync(k => k.Key == apiKey && 
-                         k.IsActive && 
-                         (k.ExpiresAt == null || k.ExpiresAt > DateTime.UtcNow));
+        return await db.ApiKeys
+            .AnyAsync(k => k.Id == apiKey &&
+                           k.IsActive &&
+                           (k.ExpiresAt == null || k.ExpiresAt > DateTime.UtcNow));
     }
 
-    public async Task<ApiKey> GetKeyAsync(string key)
+    public async Task<ApiKeyModel> GetKeyAsync(string key)
     {
-        var apiKey = await _db.ApiKeys.FirstOrDefaultAsync(k => k.Key == key);
+        var apiKey = await db.ApiKeys.FirstOrDefaultAsync(k => k.Id == key);
         return apiKey ?? throw new KeyNotFoundException($"API key {key[..4]}... not found");
     }
 
-    public async Task<IEnumerable<ApiKey>> GetActiveKeysAsync()
+    public async Task<IEnumerable<ApiKeyModel>> GetActiveKeysAsync()
     {
-        return await _db.ApiKeys
+        return await db.ApiKeys
             .Where(k => k.IsActive)
             .OrderBy(k => k.Owner)
             .ToListAsync();
@@ -65,15 +62,15 @@ public class ApiKeyService(S3DbContext db, ILogger<ApiKeyService> logger) : IApi
     public async Task RevokeKeyAsync(string key)
     {
         var apiKey = await GetKeyAsync(key);
-        
+
         lock (_lock)
         {
             apiKey.IsActive = false;
             apiKey.RevokedAt = DateTime.UtcNow;
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
-        _logger.LogInformation("Revoked API key {KeyLast4} (Owner: {Owner})", 
+        logger.LogInformation("Revoked API key {KeyLast4} (Owner: {Owner})",
             key[^4..], apiKey.Owner);
     }
 
@@ -119,7 +116,7 @@ public class ApiKeyService(S3DbContext db, ILogger<ApiKeyService> logger) : IApi
 
         await RevokeKeyAsync(oldKey);
 
-        _logger.LogInformation("Rotated key for {Owner} (Old: {OldKeyLast4}, New: {NewKeyLast4})",
+        logger.LogInformation("Rotated key for {Owner} (Old: {OldKeyLast4}, New: {NewKeyLast4})",
             oldApiKey.Owner, oldKey[^4..], newKey.Key[^4..]);
     }
 }

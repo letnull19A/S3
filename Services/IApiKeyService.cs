@@ -14,7 +14,7 @@ public interface IApiKeyService
     /// <param name="permissions">Права доступа (через запятую)</param>
     /// <param name="expiresAt">Дата истечения срока действия</param>
     /// <returns>Созданный API-ключ</returns>
-    Task<ApiKey> CreateKeyAsync(string owner, string permissions, DateTime? expiresAt = null);
+    Task<ApiKeyModel> CreateKeyAsync(string owner, string permissions, DateTime? expiresAt = null);
 
     /// <summary>
     /// Проверяет валидность API-ключа
@@ -29,12 +29,12 @@ public interface IApiKeyService
     /// <param name="key">Значение ключа</param>
     /// <returns>Объект ApiKey</returns>
     /// <exception cref="KeyNotFoundException">Если ключ не найден</exception>
-    Task<ApiKey> GetKeyAsync(string key);
+    Task<ApiKeyModel> GetKeyAsync(string key);
 
     /// <summary>
     /// Получает список всех активных ключей
     /// </summary>
-    Task<IEnumerable<ApiKey>> GetActiveKeysAsync();
+    Task<IEnumerable<ApiKeyModel>> GetActiveKeysAsync();
 
     /// <summary>
     /// Отзывает (деактивирует) API-ключ

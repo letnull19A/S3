@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
+using W2B.S3.Contexts;
 using W2B.S3.Exceptions;
 using W2B.S3.Models;
 
@@ -33,7 +34,7 @@ public class S3Service : IS3Service
         if (await _db.Buckets.AnyAsync(b => b.Name == name))
             throw new BucketOperationException($"Bucket '{name}' already exists");
 
-        var bucket = new Bucket
+        var bucket = new BucketModel
         {
             Name = name,
             MaxSizeBytes = maxSize,
@@ -111,7 +112,7 @@ public class S3Service : IS3Service
             await content.CopyToAsync(fileStream);
         }
 
-        var s3Object = new S3Object
+        var s3Object = new S3ObjectModel
         {
             Key = key,
             BucketName = bucketName,
@@ -139,7 +140,7 @@ public class S3Service : IS3Service
         return File.OpenRead(obj.StoragePath);
     }
 
-    public async Task<S3Object> GetObjectMetadataAsync(string bucketName, string key)
+    public async Task<S3ObjectModel> GetObjectMetadataAsync(string bucketName, string key)
     {
         var obj = await _db.Objects
             .FirstOrDefaultAsync(o => o.BucketName == bucketName && o.Key == key);
@@ -171,7 +172,7 @@ public class S3Service : IS3Service
         _logger.LogInformation("Object deleted: {BucketName}/{Key}", bucketName, key);
     }
 
-    public async Task<IEnumerable<S3Object>> ListObjectsAsync(string bucketName)
+    public async Task<IEnumerable<S3ObjectModel>> ListObjectsAsync(string bucketName)
     {
         await ValidateBucketExistsAsync(bucketName);
         return await _db.Objects
@@ -238,8 +239,8 @@ public class S3Service : IS3Service
     public Task<bool> ObjectExistsAsync(string bucketName, string key) =>
         _db.Objects.AnyAsync(o => o.BucketName == bucketName && o.Key == key);
 
-    public Task<IEnumerable<Bucket>> ListBucketsAsync() =>
-        Task.FromResult<IEnumerable<Bucket>>(_db.Buckets.OrderBy(b => b.Name).ToList());
+    public Task<IEnumerable<BucketModel>> ListBucketsAsync() =>
+        Task.FromResult<IEnumerable<BucketModel>>(_db.Buckets.OrderBy(b => b.Name).ToList());
 
     public async Task<long> GetBucketUsageAsync(string bucketName)
     {
@@ -250,7 +251,7 @@ public class S3Service : IS3Service
         return sum.GetValueOrDefault();
     }
 
-    public async Task<Bucket> GetBucketAsync(string name) =>
+    public async Task<BucketModel> GetBucketAsync(string name) =>
         await _db.Buckets.FirstOrDefaultAsync(b => b.Name == name)
         ?? throw new BucketNotFoundException($"Bucket '{name}' not found");
 }

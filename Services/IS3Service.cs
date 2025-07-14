@@ -26,7 +26,7 @@ public interface IS3Service
     /// Получает информацию о бакете
     /// </summary>
     /// <param name="name">Имя бакета</param>
-    Task<Bucket> GetBucketAsync(string name);
+    Task<BucketModel> GetBucketAsync(string name);
 
     /// <summary>
     /// Проверяет существование бакета
@@ -36,7 +36,7 @@ public interface IS3Service
     /// <summary>
     /// Получает список всех бакетов
     /// </summary>
-    Task<IEnumerable<Bucket>> ListBucketsAsync();
+    Task<IEnumerable<BucketModel>> ListBucketsAsync();
 
     // Объекты
     /// <summary>
@@ -59,7 +59,7 @@ public interface IS3Service
     /// <summary>
     /// Получает метаданные объекта
     /// </summary>
-    Task<S3Object> GetObjectMetadataAsync(string bucketName, string key);
+    Task<S3ObjectModel> GetObjectMetadataAsync(string bucketName, string key);
 
     /// <summary>
     /// Удаляет объект из хранилища
@@ -74,7 +74,7 @@ public interface IS3Service
     /// <summary>
     /// Получает список объектов в бакете
     /// </summary>
-    Task<IEnumerable<S3Object>> ListObjectsAsync(string bucketName);
+    Task<IEnumerable<S3ObjectModel>> ListObjectsAsync(string bucketName);
 
     /// <summary>
     /// Получает размер занятого пространства в бакете

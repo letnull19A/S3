@@ -12,7 +12,7 @@ public class ApiKeyController(
     : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<ApiKey>> CreateKey([FromBody] CreateKeyRequest request)
+    public async Task<ActionResult<ApiKeyModel>> CreateKey([FromBody] CreateKeyRequest request)
     {
         try
         {
@@ -32,7 +32,7 @@ public class ApiKeyController(
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ApiKey>>> ListKeys()
+    public async Task<ActionResult<IEnumerable<ApiKeyModel>>> ListKeys()
     {
         var keys = await keyService.GetActiveKeysAsync();
         return Ok(keys);
@@ -54,7 +54,7 @@ public class ApiKeyController(
     }
     
     [HttpGet("{key}")]
-    public async Task<ActionResult<ApiKey>> GetKey(string key)
+    public async Task<ActionResult<ApiKeyModel>> GetKey(string key)
     {
         try
         {
