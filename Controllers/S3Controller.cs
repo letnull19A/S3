@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using W2B.S3.Interfaces;
 using W2B.S3.Services;
 
 namespace W2B.S3.Controllers;
@@ -16,10 +17,10 @@ public class S3Controller(IS3Service s3, ImageProcessor imageProcessor) : Contro
     {
         var obj = await s3.GetObjectMetadataAsync(bucket, key);
 
-        if (!obj.ContentType.StartsWith("image/"))
+        if (!obj.Type.StartsWith("image/"))
         {
             var stream = await s3.GetObjectAsync(bucket, key);
-            return File(stream, obj.ContentType);
+            return File(stream, obj.Type);
         }
 
         var processed = await imageProcessor.ProcessAsync(

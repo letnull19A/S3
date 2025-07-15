@@ -13,25 +13,4 @@ public sealed class S3DbContext : DbContext
     {
         Database.EnsureCreated();
     }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<BucketModel>(b =>
-        {
-            b.HasIndex(x => x.Name).IsUnique();
-            b.Property(x => x.Name).HasMaxLength(63);
-        });
-
-        modelBuilder.Entity<S3ObjectModel>(o =>
-        {
-            o.HasKey(x => new { x.BucketName, x.Key });
-            o.HasIndex(x => x.OwnerKey);
-        });
-
-        modelBuilder.Entity<ApiKeyModel>(k =>
-        {
-            k.HasKey(x => x.Key);
-            k.Property(x => x.Key).HasMaxLength(64);
-        });
-    }
 }

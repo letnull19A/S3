@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using W2B.S3.Contexts;
+using W2B.S3.Interfaces;
 using W2B.S3.Models;
 
 namespace W2B.S3.Services;
@@ -104,19 +105,5 @@ public class ApiKeyService(S3DbContext db, ILogger<ApiKeyService> logger) : IApi
             .Distinct();
 
         return string.Join(',', normalized);
-    }
-
-    public async Task RotateKeyAsync(string oldKey)
-    {
-        var oldApiKey = await GetKeyAsync(oldKey);
-        var newKey = await CreateKeyAsync(
-            oldApiKey.Owner,
-            oldApiKey.Permissions,
-            oldApiKey.ExpiresAt);
-
-        await RevokeKeyAsync(oldKey);
-
-        logger.LogInformation("Rotated key for {Owner} (Old: {OldKeyLast4}, New: {NewKeyLast4})",
-            oldApiKey.Owner, oldKey[^4..], newKey.Key[^4..]);
     }
 }

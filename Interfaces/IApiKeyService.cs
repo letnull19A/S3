@@ -1,6 +1,6 @@
 ﻿using W2B.S3.Models;
 
-namespace W2B.S3.Services;
+namespace W2B.S3.Interfaces;
 
 /// <summary>
 /// Сервис для управления API-ключами доступа
@@ -30,17 +30,6 @@ public interface IApiKeyService
     /// <returns>Объект ApiKey</returns>
     /// <exception cref="KeyNotFoundException">Если ключ не найден</exception>
     Task<ApiKeyModel> GetKeyAsync(string key);
-
-    /// <summary>
-    /// Получает список всех активных ключей
-    /// </summary>
-    Task<IEnumerable<ApiKeyModel>> GetActiveKeysAsync();
-
-    /// <summary>
-    /// Отзывает (деактивирует) API-ключ
-    /// </summary>
-    /// <param name="key">Ключ для отзыва</param>
-    Task RevokeKeyAsync(string key);
 
     /// <summary>
     /// Проверяет наличие конкретного разрешения у ключа

@@ -1,6 +1,6 @@
 ﻿using W2B.S3.Models;
 
-namespace W2B.S3.Services;
+namespace W2B.S3.Interfaces;
 
 /// <summary>
 /// Интерфейс сервиса для работы с S3-совместимым хранилищем
@@ -15,12 +15,6 @@ public interface IS3Service
     /// <param name="maxSize">Максимальный размер в байтах</param>
     /// <param name="ownerKey">API-ключ владельца</param>
     Task CreateBucketAsync(string name, long maxSize, string ownerKey);
-
-    /// <summary>
-    /// Удаляет бакет и все его содержимое
-    /// </summary>
-    /// <param name="name">Имя бакета</param>
-    Task DeleteBucketAsync(string name);
 
     /// <summary>
     /// Получает информацию о бакете

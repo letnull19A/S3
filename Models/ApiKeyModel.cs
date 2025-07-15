@@ -6,30 +6,24 @@ namespace W2B.S3.Models;
 [Table("api_keys")]
 public sealed class ApiKeyModel : BaseModel
 {
-    [Required]
-    [Column("owner")]
-    [StringLength(255)]
-    public string Owner { get; set; } = null!;
+    [Required] 
+    [Column("owner_id")] 
+    public Guid OwnerId { get; set; }
 
-    [Column("permissions")]
-    [StringLength(255)]
-    public string Permissions { get; set; } = "read,write";
+    [Required] 
+    [Column("bucket_id")] 
+    public Guid BucketId { get; set; }
 
-    [Column("created_at")] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Required] 
+    [Column("status")] 
+    public string Status { get; set; } = "active";
 
-    [Column("expires_at")] public DateTime? ExpiresAt { get; set; }
+    [Column("permissions")] 
+    public byte Permissions { get; set; }
 
-    [Column("is_active")] public bool IsActive { get; set; } = true;
-
-    [Column("revoked_at")] public DateTime? RevokedAt { get; set; }
-
-    [Column("last_used_at")] public DateTime? LastUsedAt { get; set; }
-
-    [Column("description")]
-    [StringLength(500)]
-    public string? Description { get; set; }
-
-    public ICollection<S3ObjectModel> CreatedObjects { get; set; } = new List<S3ObjectModel>();
-
-    public ICollection<BucketModel> CreatedBuckets { get; set; } = new List<BucketModel>();
+    [Column("key")] 
+    public string Key { get; set; } = string.Empty;
+    
+    public UserModel User { get; set; }
+    public ICollection<BucketModel> Buckets { get; set; } = new List<BucketModel>();
 }

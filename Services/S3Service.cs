@@ -2,6 +2,7 @@
 using SixLabors.ImageSharp;
 using W2B.S3.Contexts;
 using W2B.S3.Exceptions;
+using W2B.S3.Interfaces;
 using W2B.S3.Models;
 
 namespace W2B.S3.Services;

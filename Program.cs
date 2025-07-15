@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using W2B.S3.Contexts;
+using W2B.S3.Interfaces;
 using W2B.S3.Middleware;
 using W2B.S3.Models;
 using W2B.S3.Services;
@@ -62,7 +63,7 @@ async Task InitializeRootUser(S3DbContext db, IApiKeyService keyService)
 
         Console.WriteLine("====================================");
         Console.WriteLine("ROOT ACCESS KEY CREATED");
-        Console.WriteLine($"Key: {rootKey.Key}");
+        Console.WriteLine($"Key: {rootKey.Id}");
         Console.WriteLine($"Owner: {rootKey.Owner}");
         Console.WriteLine($"Permissions: {rootKey.Permissions}");
         Console.WriteLine("====================================");
