@@ -5,7 +5,8 @@ namespace W2B.S3.Models;
 
 public class BaseModel
 {
-    [Key] 
-    [Column("id")] 
+    [Key]
+    [Column("id")]
+    [Required]
     public Guid Id { get; set; } = Guid.NewGuid();
 }
