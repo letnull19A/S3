@@ -1,11 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using W2B.S3.Contexts;
 using W2B.S3.Middlewares;
-using W2B.S3.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
-var argsParser = new ArgsParser(args);
-argsParser.Parse();
 
 builder.Configuration
     .AddJsonFile("appsettings.json")
