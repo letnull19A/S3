@@ -13,6 +13,4 @@ public sealed class S3ObjectModel : BaseModel
     [Required]
     [Column("file_name")]
     public string FileName { get; set; } = string.Empty;
-
-    public S3BucketModel Bucket { get; set; } = null!;
 }

@@ -13,8 +13,13 @@ public sealed class S3ObjectController(
     ILogger<S3ObjectController> logger) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> Upload([FromForm] List<IFormFile>? files)
+    public async Task<IActionResult> Upload(Guid bucketId, [FromForm] List<IFormFile>? files)
     {
+        var bucket = context.Buckets?.FirstOrDefault(i => i.Id == bucketId);
+
+        if (bucket == null)
+            return BadRequest("bucket not found");
+
         if (files == null || files.Count == 0)
             return BadRequest("No files were uploaded.");
 
@@ -45,6 +50,7 @@ public sealed class S3ObjectController(
             uploadedFiles.Add(new S3ObjectModel()
             {
                 Id = Guid.NewGuid(),
+                BucketId = bucketId,
                 FileName = currentFileName
             });
         }
