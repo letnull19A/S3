@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using W2B.S3.Contexts;
 using W2B.S3.Middlewares;
 
@@ -13,9 +12,7 @@ builder.Configuration
 builder.Services.AddDbContext<S3DbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("S3Database")));
 
-builder.Services
-    .AddControllers()
-    .AddNewtonsoftJson();
+builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
