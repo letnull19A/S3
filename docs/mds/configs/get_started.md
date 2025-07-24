@@ -74,7 +74,7 @@ cluster:
         "host": "127.0.0.1"
     }
 }
-``
+```
 
 <small>YAML:</small><br/>
 <code>network.host</code><br/>
@@ -86,7 +86,33 @@ cluster:
 
 ## корневой пользователь
 
-<small>CLI:</small>
+### имя пользователя
+
+<small>CLI:</small><br/>
+<code>--rootUser</code>
+
+<small>ENV:</small><br/>
+<code>ROOT_USER</code>
+
+<small>JSON:</small>
+<code>root.user</code>
+```json
+
+{
+    "root": {
+        "user": "root"
+    }
+}
+
+```
+
+<small>YAML:</small>
+<code>root.user</code>
+```yaml
+cluster:
+    root:
+        user: "root"
+```
 
 ### CLI
 
