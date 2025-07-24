@@ -42,8 +42,8 @@ PORT=7890
 <code>network.port</code>
 ```json
 {
-    network: {
-        port: 7890
+    "network": {
+        "port": 7890
     }
 }
 ```
@@ -68,9 +68,25 @@ cluster:
 
 <small>JSON:</small><br/>
 <code>network.host</code>
+```json
+{
+    "network": {
+        "host": "127.0.0.1"
+    }
+}
+``
 
 <small>YAML:</small><br/>
 <code>network.host</code><br/>
+```yaml
+cluster:
+    network:
+        host: "127.0.0.1"
+```
+
+## корневой пользователь
+
+<small>CLI:</small>
 
 ### CLI
 
