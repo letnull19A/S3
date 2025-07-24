@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>W2B.S3.Core</AssemblyName>
+        <RootNamespace>W2B.S3.Core</RootNamespace>
+    </PropertyGroup>
+
+</Project>
