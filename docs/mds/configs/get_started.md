@@ -84,9 +84,9 @@ cluster:
         host: "127.0.0.1"
 ```
 
-## корневой пользователь
+### корневой пользователь (root)
 
-### имя пользователя
+#### user
 
 <small>CLI:</small><br/>
 <code>--rootUser</code>
@@ -94,7 +94,7 @@ cluster:
 <small>ENV:</small><br/>
 <code>ROOT_USER</code>
 
-<small>JSON:</small>
+<small>JSON:</small><br/>
 <code>root.user</code>
 ```json
 
@@ -106,12 +106,39 @@ cluster:
 
 ```
 
-<small>YAML:</small>
+<small>YAML:</small><br/>
 <code>root.user</code>
 ```yaml
 cluster:
     root:
         user: "root"
+```
+
+#### password
+
+<small>CLI:</small><br/>
+<code>--rootPassword</code>
+
+<small>ENV:</small><br/>
+<code>ROOT_PASSWORD</code>
+
+<small>JSON:</small><br/>
+<code>root.password</code>
+```json
+{
+    "root": {
+        "password": "strongst_password"
+    }
+}
+
+```
+
+<small>YAML:</small><br/>
+<code>root.password</code>
+```yaml
+cluster:
+    root:
+        password: "strongst_password"
 ```
 
 ### CLI
