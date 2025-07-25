@@ -61,6 +61,7 @@ cluster:
     port: 7890
 ```
 
+
 #### host (строка)
 
 <p>хост на котором будет работать приложение</p>
@@ -113,12 +114,12 @@ ROOT_USER
 <code>root.user</code>
 
 ```json
+
 {
     "root": {
         "user": "root"
     }
 }
-```
 
 <small>YAML:</small><br/>
 <code>root.user</code>
@@ -151,7 +152,6 @@ ROOT_PASSWORD
         "password": "strongst_password"
     }
 }
-```
 
 <small>YAML:</small><br/>
 <code>root.password</code>
