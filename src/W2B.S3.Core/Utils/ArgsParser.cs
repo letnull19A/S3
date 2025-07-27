@@ -10,7 +10,7 @@ public sealed class ArgsParser(IReadOnlyList<string> args)
         var argsDictionary = new Dictionary<string, string>();
 
         for (var i = 0; i < args.Count; i += 2) {
-            argsDictionary.Add(args[i], args[i + 1]);
+            argsDictionary.Add(args[i], args[i + 1].Replace("\'", string.Empty));
         }
 
         return argsDictionary;
