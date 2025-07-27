@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using W2B.S3.Core.Interfaces;
 using W2B.S3.Core.Modules;
 using W2B.S3.Core.Utils;
@@ -10,6 +10,7 @@ public sealed class S3Engine : IControlModule<S3Engine, string[]>
     private Dictionary<string, string> _parsedArgs;
     private string _fileName = string.Empty;
     private string _fileNameExtension = string.Empty;
+
 
     public S3Engine Init(string[] args)
     {
