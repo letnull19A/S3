@@ -1,4 +1,4 @@
-﻿using W2B.S3.Core.Interfaces;
+using W2B.S3.Core.Interfaces;
 
 namespace W2B.S3.Core.Modules;
 
