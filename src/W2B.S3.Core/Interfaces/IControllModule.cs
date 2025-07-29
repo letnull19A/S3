@@ -1,13 +1,12 @@
-﻿
 namespace W2B.S3.Core.Interfaces;
 
-public interface IControlModule<T, TU>
+public interface IControlModule
 {
-    public T Init(TU args);
+    public void Init();
 
     public void Start();
 
-    public void TakeControl(IControlModule<T, TU> module);
+    public void TakeControl(IControlModule module);
     
     public void End();
 }
