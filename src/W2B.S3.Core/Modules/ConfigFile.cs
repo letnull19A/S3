@@ -2,17 +2,18 @@
 
 namespace W2B.S3.Core.Modules;
 
-public sealed class ConfigFile : IControlModule<ConfigFile, Dictionary<string, string>>
+public sealed class ConfigFileModule(Dictionary<string, string> args) : IControlModule
 {
-    private Dictionary<string, string> _parsedArgs = new();
     private string _fileName = string.Empty;
     private string _fileNameExtension = string.Empty;
-    
-    public ConfigFile Init(Dictionary<string, string> args)
-    {
-        _parsedArgs = args;
 
-        return this;
+    public void Init()
+    {
+    }
+
+    public (string, string) Get()
+    {
+        return (_fileName, _fileNameExtension);
     }
 
     public void Start()
@@ -25,9 +26,10 @@ public sealed class ConfigFile : IControlModule<ConfigFile, Dictionary<string, s
             ConfigsIsNotDefined();
     }
 
-    public void TakeControl(IControlModule<ConfigFile, Dictionary<string, string>> module)
+    public void TakeControl(IControlModule module)
     {
-        throw new NotImplementedException();
+        module.Init();
+        module.Start();
     }
 
     public void End()
@@ -37,7 +39,7 @@ public sealed class ConfigFile : IControlModule<ConfigFile, Dictionary<string, s
 
     private bool IsConfigFileDefined()
     {
-        return _parsedArgs.ContainsKey("--configFile");
+        return args.ContainsKey("--configFile");
     }
 
     private void ConfigsIsNotDefined()
@@ -47,7 +49,7 @@ public sealed class ConfigFile : IControlModule<ConfigFile, Dictionary<string, s
 
     private void ConfigsIsDefined()
     {
-        _parsedArgs.TryGetValue("--configFile", out _fileName);
+        args.TryGetValue("--configFile", out _fileName);
 
         _fileNameExtension = _fileName.Split('.')[^1];
     }

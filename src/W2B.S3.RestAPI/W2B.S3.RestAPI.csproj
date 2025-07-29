@@ -7,6 +7,7 @@
     <UserSecretsId>b1edfa86-c76d-4f7c-b77e-1f1709a1f9e1</UserSecretsId>
     <AssemblyName>W2B.S3.RestAPI</AssemblyName>
     <RootNamespace>W2B.S3.RestAPI</RootNamespace>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
