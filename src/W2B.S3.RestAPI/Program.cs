@@ -2,44 +2,52 @@ using Microsoft.EntityFrameworkCore;
 using W2B.S3.Contexts;
 using W2B.S3.Middlewares;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace W2B.S3.RestAPI;
 
-builder.Configuration
-    .AddJsonFile("appsettings.json")
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-    .AddEnvironmentVariables();
-
-builder.Services.AddDbContext<S3DbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("S3Database")));
-
-builder.Services.AddControllers();
-
-builder.Services.AddCors(options =>
+public sealed class WebApiModule(string[] args)
 {
-    options.AddPolicy("CORS", p =>
+    public void Start()
     {
-        p.AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowAnyOrigin();
-    });
-});
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+        // builder.Configuration
+        //     .AddJsonFile("appsettings.json")
+        //     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+        //     .AddEnvironmentVariables();
 
-var app = builder.Build();
+        // builder.Services.AddDbContext<S3DbContext>(options =>
+        //     options.UseNpgsql(builder.Configuration.GetConnectionString("S3Database")));
 
-app.UseNonEmptyFiles();
+        builder.Services.AddControllers();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("CORS");
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("CORS", p =>
+            {
+                p.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            });
+        });
+
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        app.UseNonEmptyFiles();
+
+        // if (app.Environment.IsDevelopment())
+        // {
+        app.UseCors("CORS");
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        // }
+
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
-
-await app.RunAsync();
