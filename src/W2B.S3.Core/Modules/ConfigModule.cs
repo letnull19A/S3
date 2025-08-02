@@ -2,7 +2,7 @@
 
 namespace W2B.S3.Core.Modules;
 
-public sealed class ConfigFileModule(Dictionary<string, string> args) : IControlModule
+public sealed class ConfigModule(Dictionary<string, string> args) : IControlModule
 {
     private string _fileName = string.Empty;
     private string _fileNameExtension = string.Empty;

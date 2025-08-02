@@ -23,7 +23,7 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
     public void Start()
     {
-        var configs = new ConfigFileModule(_parsedArgs);
+        var configs = new ConfigModule(_parsedArgs);
 
         configs.Init();
         configs.Start();

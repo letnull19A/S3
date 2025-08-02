@@ -9,4 +9,12 @@ public sealed class YamlConfig
         if (!File.Exists(Directory.GetCurrentDirectory() + _filePath))
             throw new FileNotFoundException("file not found");
     }
+
+    public void GetRootConfirg()
+    {
+    }
+
+    public void Get()
+    {
+    }
 }
