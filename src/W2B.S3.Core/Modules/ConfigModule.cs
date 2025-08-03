@@ -70,11 +70,13 @@ public sealed class ConfigModule(IReadOnlyDictionary<string, string> args) : ICo
                                                  """);
 
             var fullPath = Path.GetFullPath(_fileName);
-                
-            if (_fileNameExtension == "yaml")
+
+            _configModel = _fileNameExtension switch
             {
-                _configModel = YAMLConfigLoader.LoadConfig(fullPath);
-            }
+                "yaml" => YAMLConfigLoader.LoadConfig(fullPath),
+                "json" => JSONConfigLoader.LoadConfig(fullPath),
+                _ => _configModel
+            };
         }
         catch (Exception exception)
         {
