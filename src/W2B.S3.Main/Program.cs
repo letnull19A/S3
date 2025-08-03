@@ -1,6 +1,5 @@
 using W2B.S3.Core;
 using W2B.S3.RestAPI;
-using W2B.S3.RestAPI;
 
 namespace W2B.S3.Main;
 
@@ -13,15 +12,8 @@ public static class Program
         var engine = new S3Engine(args);
         engine.Init();
 
-
-        var engine = new S3Engine(args);
-        engine.Init();
-
         engine.Start();
         engine.End();
-        
-        var t = new WebApiModule(args.ToArray());
-        t.Start();
         
         var t = new WebApiModule(args.ToArray());
         t.Start();

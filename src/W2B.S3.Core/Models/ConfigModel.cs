@@ -67,5 +67,3 @@ public sealed class PostgresConfig
     [YamlMember(Alias = "port")]
     public ushort Port { get; set; }
 }
-  public string Token { get; } = token;
-}
