@@ -1,4 +1,5 @@
 ﻿using W2B.S3.Core.Interfaces;
+using W2B.S3.Core.Models;
 using W2B.S3.Core.Modules;
 using W2B.S3.Core.Utils;
 
@@ -11,10 +12,8 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
     private string _fileName = string.Empty;
     private string _fileNameExtension = string.Empty;
 
-    private string _rootToken = string.Empty;
-    private string _rootUserName = string.Empty;
-    private string _rootUserPassword = string.Empty;
-
+    private ConfigModel? _config;
+    
     public void Init()
     {
         var parser = new ArgsParser(args);
@@ -28,14 +27,12 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
         configs.Init();
         configs.Start();
 
-        (_fileName, _fileNameExtension) = configs.Get();
+        (_fileName, _fileNameExtension, _config) = configs.Get();
 
         var rootUser = new RootUserModule(_parsedArgs);
 
         rootUser.Init();
         rootUser.Start();
-
-        (_rootToken, _rootUserName, _rootUserPassword) = rootUser.Get();
 
         DisplayFinallyConfigs();
     }
@@ -74,7 +71,7 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
         Console.WriteLine($"=> schema name: {_fileName}");
 
-        var schema = string.IsNullOrEmpty(_rootToken) ? "login, password" : "token";
+        var schema = string.IsNullOrEmpty(_config?.Cluster.Root.Token) ? "login, password" : "token";
 
         Console.Write($"=> authentication root user schema: ");
 
@@ -91,10 +88,10 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
         Console.WriteLine(schema != "token"
             ? $"""
-               => root user: {_rootUserName}
+               => root user: {_config?.Cluster.Root.User}
                => root password: ***
                """
-            : $"=> root token: {_rootToken.Substring(0, 4)}*********\n" +
+            : $"=> root token: {_config?.Cluster.Root.Token[..4]}*********\n" +
               $"=> operating system: {GetOperationSystemName()}");
     }
 }

@@ -1,0 +1,21 @@
+cluster:
+  name: 'some name'
+  mode: 'hybrid'
+  volume: '/mnt/nvme0/s3-data'
+
+  root:
+    user: 'root'
+    password: 'root'
+    token: '=Xt0da0f5=jh3Jk'
+    
+  network:
+    host: 'localhost'
+    port: 8080
+      
+
+  postgres:
+    user: 'postgres'
+    password: 'password'
+    dataBase: 's3.cluster'
+    host: '92.8.32.11'
+    port: 5432

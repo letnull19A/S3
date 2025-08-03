@@ -1,27 +1,69 @@
-﻿namespace W2B.S3.Core.Models;
+﻿using YamlDotNet.Serialization;
 
-public sealed class ConfigModel(Network network, RootUser root, ArgsConfig argsConfig)
+namespace W2B.S3.Core.Models;
+
+public sealed class ConfigModel
 {
-    public ArgsConfig ArgsConfig { get; } = argsConfig;
-    public Network Network { get; } = network;
-    public RootUser Root { get; } = root;
+    [YamlMember(Alias = "cluster")]
+    public ClusterConfig Cluster { get; set; }
 }
 
-public sealed class ArgsConfig(Network network, RootUser root)
+public sealed class ClusterConfig
 {
-    public Network Network { get; } = network;
-    public RootUser Root { get; } = root;
+    [YamlMember(Alias = "name")]
+    public string Name { get; set; }
+
+    [YamlMember(Alias = "mode")]
+    public string Mode { get; set; }
+
+    [YamlMember(Alias = "volume")]
+    public string Volume { get; set; }
+
+    [YamlMember(Alias = "root")]
+    public RootUser Root { get; set; }
+
+    [YamlMember(Alias = "network")]
+    public NetworkConfig Network { get; set; }
+
+    [YamlMember(Alias = "postgres")]
+    public PostgresConfig Postgres { get; set; }
 }
 
-public sealed class Network(ushort port, string ipAddress)
+public sealed class RootUser
 {
-    public ushort Port { get; } = port;
-    public string IpAddress { get; } = ipAddress;
+    [YamlMember(Alias = "user")]
+    public string User { get; set; }
+
+    [YamlMember(Alias = "password")]
+    public string Password { get; set; }
+
+    [YamlMember(Alias = "token")]
+    public string Token { get; set; }
 }
 
-public sealed class RootUser(string name, string password, string token)
+public sealed class NetworkConfig
 {
-    public string? Name { get; } = name;
-    public string? Password { get; } = password;
-    public string? Token { get; } = token;
+    [YamlMember(Alias = "host")]
+    public string Host { get; set; }
+
+    [YamlMember(Alias = "port")]
+    public ushort Port { get; set; }
+}
+
+public sealed class PostgresConfig
+{
+    [YamlMember(Alias = "user")]
+    public string User { get; set; }
+
+    [YamlMember(Alias = "password")]
+    public string Password { get; set; }
+
+    [YamlMember(Alias = "dataBase")]
+    public string DataBase { get; set; }
+
+    [YamlMember(Alias = "host")]
+    public string Host { get; set; }
+
+    [YamlMember(Alias = "port")]
+    public ushort Port { get; set; }
 }

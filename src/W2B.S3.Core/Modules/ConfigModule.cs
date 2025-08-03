@@ -1,19 +1,23 @@
-﻿using W2B.S3.Core.Interfaces;
+﻿using System.Text;
+using W2B.S3.Core.Configs;
+using W2B.S3.Core.Interfaces;
+using W2B.S3.Core.Models;
 
 namespace W2B.S3.Core.Modules;
 
-public sealed class ConfigModule(Dictionary<string, string> args) : IControlModule
+public sealed class ConfigModule(IReadOnlyDictionary<string, string> args) : IControlModule
 {
     private string _fileName = string.Empty;
     private string _fileNameExtension = string.Empty;
+    private ConfigModel? _configModel;
 
     public void Init()
     {
     }
 
-    public (string, string) Get()
+    public (string, string, ConfigModel?) Get()
     {
-        return (_fileName, _fileNameExtension);
+        return (_fileName, _fileNameExtension, _configModel);
     }
 
     public void Start()
@@ -49,8 +53,32 @@ public sealed class ConfigModule(Dictionary<string, string> args) : IControlModu
 
     private void ConfigsIsDefined()
     {
-        args.TryGetValue("--configFile", out _fileName);
+        try
+        {
+            args.TryGetValue("--configFile", out _fileName);
 
-        _fileNameExtension = _fileName.Split('.')[^1];
+            _fileNameExtension = _fileName.Split('.')[^1];
+
+            var cwd = Directory.GetCurrentDirectory();
+
+            if (!File.Exists(_fileName))
+                throw new FileNotFoundException($"""
+                                                 failed to load configs:
+                                                 file name: {_fileName}
+                                                 file ext: {_fileNameExtension}
+                                                 CWD: {cwd}
+                                                 """);
+
+            var fullPath = Path.GetFullPath(_fileName);
+                
+            if (_fileNameExtension == "yaml")
+            {
+                _configModel = YAMLConfigLoader.LoadConfig(fullPath);
+            }
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+        }
     }
 }
