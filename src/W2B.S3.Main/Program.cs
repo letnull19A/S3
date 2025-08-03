@@ -1,4 +1,4 @@
-﻿using W2B.S3.Core;
+using W2B.S3.Core;
 using W2B.S3.RestAPI;
 
 namespace W2B.S3.Main;
