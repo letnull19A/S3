@@ -15,4 +15,7 @@
     <ItemGroup>
       <ProjectReference Include="..\W2B.S3.RestAPI\W2B.S3.RestAPI.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\W2B.S3.RestAPI\W2B.S3.RestAPI.csproj" />
+    </ItemGroup>
 </Project>
