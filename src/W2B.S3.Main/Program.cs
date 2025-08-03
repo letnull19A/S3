@@ -21,6 +21,7 @@ public static class Program
 
     private static void WelkomenMessage()
     {
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("""
                                ____        ____    ____________    __________
                               /   /\ ___  /   /\  /________   /\  /  ______  /\
@@ -29,5 +30,6 @@ public static class Program
                               /_____//_____/ / /___________/\  /__________/ /
                               \_____\\_____\/  \___________\/  \__________\/
                           """);
+        Console.ForegroundColor = ConsoleColor.Gray;
     }
 }
