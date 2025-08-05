@@ -12,6 +12,12 @@ public sealed class ConfigModule(IReadOnlyDictionary<string, string> args) : ICo
 
     public void Init()
     {
+        var isConfigParamExist = IsConfigFileDefined();
+
+        if (isConfigParamExist)
+            ConfigsIsDefined();
+        else
+            ConfigsIsNotDefined();
     }
 
     public (string, string, ConfigModel?) Get()
@@ -21,12 +27,7 @@ public sealed class ConfigModule(IReadOnlyDictionary<string, string> args) : ICo
 
     public void Start()
     {
-        var isConfigParamExist = IsConfigFileDefined();
-
-        if (isConfigParamExist)
-            ConfigsIsDefined();
-        else
-            ConfigsIsNotDefined();
+        
     }
 
     public void TakeControl(IControlModule module)

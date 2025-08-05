@@ -7,20 +7,32 @@ namespace W2B.S3.Core;
 
 public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 {
+    private readonly ApplicationContextBuilder _applicationContextBuilder = new();
+    private ApplicationContextModel? _applicationContext;
+
     private Dictionary<string, string> _parsedArgs = new();
 
     private string _fileName = string.Empty;
     private string _fileNameExtension = string.Empty;
 
     private ConfigModel? _config;
-    
+
     public void Init()
     {
-        var parser = new ArgsParser(args);
-        _parsedArgs = parser.Parse();
+        ParseArgs();
+        Configure();
+        BakeApplicationContext();
     }
 
-    public void Start()
+    private void BakeApplicationContext()
+    {
+        _applicationContextBuilder.SetArgs(_parsedArgs);
+        _applicationContextBuilder.SetConfigs(_config);
+
+        _applicationContext = _applicationContextBuilder.Bake();
+    }
+
+    private void Configure()
     {
         var configs = new ConfigModule(_parsedArgs);
 
@@ -28,8 +40,20 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
         configs.Start();
 
         (_fileName, _fileNameExtension, _config) = configs.Get();
+    }
 
-        var rootUser = new RootUserModule(_parsedArgs);
+    private void ParseArgs()
+    {
+        var parser = new ArgsParser(args);
+        _parsedArgs = parser.Parse();
+    }
+
+    public void Start()
+    {
+        if (_applicationContext == null)
+            throw new NullReferenceException(nameof(_applicationContext));
+
+        var rootUser = new RootUserModule(_parsedArgs, _applicationContext);
 
         rootUser.Init();
         rootUser.Start();

@@ -1,3 +1,4 @@
+using System.Xml;
 using W2B.S3.Core;
 using W2B.S3.RestAPI;
 
@@ -7,16 +8,29 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        WelkomenMessage();
+        try
+        {
 
-        var engine = new S3Engine(args);
-        engine.Init();
+            WelkomenMessage();
 
-        engine.Start();
-        engine.End();
-        
-        var t = new WebApiModule(args.ToArray());
-        t.Start();
+            var engine = new S3Engine(args);
+
+            engine.Init();
+            engine.Start();
+            engine.End();
+
+            var t = new WebApiModule(args.ToArray());
+            t.Start();
+        }
+        catch (Exception exception)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"""
+                               ============ Some mistakes ============
+                               {exception.Message}
+                               """);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 
     private static void WelkomenMessage()
@@ -29,6 +43,7 @@ public static class Program
                               /    /   //   / / /   /_______ \/ /  /\____/ / /
                               /_____//_____/ / /___________/\  /__________/ /
                               \_____\\_____\/  \___________\/  \__________\/
+                              
                           """);
         Console.ForegroundColor = ConsoleColor.Gray;
     }
