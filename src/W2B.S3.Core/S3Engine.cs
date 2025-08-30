@@ -29,6 +29,8 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
         (_fileName, _fileNameExtension, _config) = configs.Get();
 
+        // Check db connection
+
         var rootUser = new RootUserModule(_parsedArgs);
 
         rootUser.Init();
