@@ -54,6 +54,11 @@ public sealed class RootUserModule(IReadOnlyDictionary<string, string> args) : I
 
     public void End()
     {
-        Console.WriteLine("RootUserModule is ended");
+        Console.WriteLine("generated user token for user (root):");
+    }
+
+    private string GenerateRootUserToken()
+    {
+      return "Hello, world";
     }
 }
