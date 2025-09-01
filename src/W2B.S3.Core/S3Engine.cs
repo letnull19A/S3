@@ -73,7 +73,8 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
         Console.WriteLine($"=> schema name: {_fileName}");
 
-        var schema = string.IsNullOrEmpty(_config?.Cluster.Root.Token) ? "login, password" : "token";
+        var schema = string.IsNullOrEmpty(_config?.Cluster.Root.Token) 
+          ? "login, password" : "token";
 
         Console.Write($"=> authentication root user schema: ");
 

@@ -70,6 +70,8 @@ public sealed class ConfigModule(IReadOnlyDictionary<string, string> args) : ICo
 
             var fullPath = Path.GetFullPath(_fileName);
 
+            //TODO: YAMLConfigLoader -> YAMLConfig
+            // YAMLConfig.Load() лучше чем YAMLConfigLoader.LoadConfig()
             _configModel = _fileNameExtension switch
             {
                 "yaml" => YAMLConfigLoader.LoadConfig(fullPath),
