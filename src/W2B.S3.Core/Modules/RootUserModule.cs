@@ -64,7 +64,7 @@ public sealed class RootUserModule(IReadOnlyDictionary<string, string> args) : I
     private string GenerateRootUserToken()
     {
       var token = new Token();
-      var rootToken = token.Generate("");
+      var rootToken = token.Generate("dead_inside");
 
       return rootToken;
     }

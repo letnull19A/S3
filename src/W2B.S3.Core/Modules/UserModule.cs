@@ -22,11 +22,15 @@ public sealed class UserModule(
   public void End()
   { }
 
+  /// <summary>
+  /// create new user
+  /// </summary>
   public void Create()
   { }
 
-  /// <summary>usermod function</summary>
-  ///
+  /// <summary>
+  /// usermod function
+  /// </summary>
   public void Mod()
   { }
 }
