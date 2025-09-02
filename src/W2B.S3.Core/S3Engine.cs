@@ -35,13 +35,13 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
         rootUser.Init();
         rootUser.Start();
+        rootUser.End();      
 
         DisplayFinallyConfigs();
     }
 
-    public void TakeControl(IControlModule module)
-    {
-    }
+    public void TakeControl(IControlModule module) =>
+      throw new Exception("main module can not take control another controled module");
 
     public void End()
     {

@@ -1,4 +1,5 @@
 ﻿using W2B.S3.Core.Interfaces;
+using W2B.S3.Core.Utils;
 
 namespace W2B.S3.Core.Modules;
 
@@ -13,14 +14,16 @@ public sealed class RootUserModule(IReadOnlyDictionary<string, string> args) : I
 
     public void Start()
     {
-        if (args.ContainsKey("--rootUser") && args.ContainsKey("--rootPassword") && args.ContainsKey("--rootToken"))
+        if (args.ContainsKey("--rootUser") 
+            && args.ContainsKey("--rootPassword") 
+            && args.ContainsKey("--rootToken"))
             throw new Exception("Can not configure --rootUser and --rootPassword with --rootToken.");
 
         if (args.ContainsKey("--rootUser") && args.ContainsKey("--rootPassword"))
             RootUserDataDefined();
 
         if (args.ContainsKey("--rootToken"))
-            RootTokenDefined();
+            RootUserTokenDefined();
     }
 
     public (string?, string?, string?) Get()
@@ -40,7 +43,7 @@ public sealed class RootUserModule(IReadOnlyDictionary<string, string> args) : I
                 "--rootPassword is null or empty, but --rootToken is not defined! Please set value here.");
     }
 
-    private void RootTokenDefined()
+    private void RootUserTokenDefined()
     {
         args.TryGetValue("--rootToken", out _rootToken);
 
@@ -55,10 +58,14 @@ public sealed class RootUserModule(IReadOnlyDictionary<string, string> args) : I
     public void End()
     {
         Console.WriteLine("generated user token for user (root):");
+        Console.WriteLine(GenerateRootUserToken());
     }
 
     private string GenerateRootUserToken()
     {
-      return "Hello, world";
+      var token = new Token();
+      var rootToken = token.Generate("");
+
+      return rootToken;
     }
 }

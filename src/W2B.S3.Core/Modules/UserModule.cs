@@ -25,6 +25,8 @@ public sealed class UserModule(
   public void Create()
   { }
 
-  public void ChangeGroup()
+  /// <summary>usermod function</summary>
+  ///
+  public void Mod()
   { }
 }
