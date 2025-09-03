@@ -5,4 +5,10 @@ clear
 
 dotnet run \
   --project="${SRCMAIN}" \
-  --os="linux"
+  --os="linux" \
+  -- \
+  --pgHost "127.0.0.1" \
+  --pgPort 5433 \
+  --pgDatabase "postgres" \
+  --pgUser "postgres" \
+  --pgPassword "111"

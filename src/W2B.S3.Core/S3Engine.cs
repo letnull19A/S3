@@ -22,6 +22,7 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
     public void Start()
     {
+        //TODO: move to Init
         var configs = new ConfigModule(_parsedArgs);
 
         configs.Init();
@@ -31,11 +32,17 @@ public sealed class S3Engine(IReadOnlyList<string> args) : IControlModule
 
         // Check db connection
 
+        //TODO: move to Init
         var rootUser = new RootUserModule(_parsedArgs);
 
         rootUser.Init();
         rootUser.Start();
-        rootUser.End();      
+        rootUser.End(); 
+
+        //TODO: move to Init
+        var postgres = new DataBaseModule(_parsedArgs);
+        postgres.Init();
+        postgres.CheckConnection();
 
         DisplayFinallyConfigs();
     }
