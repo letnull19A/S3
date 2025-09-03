@@ -187,7 +187,7 @@ ROOT_TOKEN
 ```
 
 <small>YAML:</small><br/>
-<code>root.user</code>
+<code>root.token</code>
 
 ```yaml
 cluster:
