@@ -11,25 +11,23 @@ public static class Program
 
         var engine = new S3Engine(args);
         engine.Init();
-
         engine.Start();
         engine.End();
-        
-        var t = new WebApiModule(args.ToArray());
-        t.Start();
     }
 
     private static void WelkomenMessage()
     {
-        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("""
+            
                                ____        ____    ____________    __________
                               /   /\ ___  /   /\  /________   /\  /  ______  /\
                               /   / /  /\/   / / _\_______/__/ / /  /\____/ / /
                               /    /   //   / / /   /_______ \/ /  /\____/ / /
                               /_____//_____/ / /___________/\  /__________/ /
                               \_____\\_____\/  \___________\/  \__________\/
-                          """);
+                          
+            """);
         Console.ForegroundColor = ConsoleColor.Gray;
     }
 }
